@@ -112,5 +112,5 @@ HTTPS与HTTP2
 [1]: https://zh.wikipedia.org/wiki/%E8%B6%85%E6%96%87%E6%9C%AC%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE
 [2]: https://zh.wikipedia.org/wiki/%E8%92%82%E5%A7%86%C2%B7%E4%BC%AF%E7%BA%B3%E6%96%AF-%E6%9D%8E
 [3]: http://baike.baidu.com/link?url=loLXfZfkha1NTPo0HdVb9OYJWF8EIut1VBooxm07fbj6xeW7v9rwSINwVT7sCwbA0T3rZwYkJDNlC6dQVi3TQsju-3BUnERVvTDPG8Qt0mH47F5V22CrAhh2MJi4Ifw-
-[4]: http://code.affecthing.com:4430/public/http-flow.jpg
-[5]: http://code.affecthing.com:4430/public/w3c-network-mini.jpg
+[4]: http://code.affecthing.com:443/public/http-flow.jpg
+[5]: http://code.affecthing.com:443/public/w3c-network-mini.jpg
