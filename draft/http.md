@@ -1,7 +1,17 @@
-# HTTP——需要知道的协议
+HTTP——需要知道的协议
+====
+
+笔者语
+====
+
+最近发现，工作了三年，只知道get和post请求，对HTTP没有完整的了解。和我一样情况的程序员绝不在少数，
+这会影响我们对整个工程的理解。从打开一个网页，之后都发生了什么，也只是略懂一二。
+
+HTTP协议就像平时发快递，规定必须填写收货人，地址和手机号码，只有这样才能准确送给收货人。HTTP则是规定了如何
+在两台电脑间发送和接收超文本。
 
 起源历史
-----
+====
 
   1980年，蒂姆·伯纳斯·李在CERN(欧洲核子研究组织)时，为了方便多地研究人员共享信息提出了一个设想，
 "借助于超文本，连接成可互相浏览的WWW(万维网)项目"。
@@ -17,26 +27,78 @@
 HTTP，HTML，URI等一系列相关的万维网技术。
 
 
-## 笔者插语
+TCP/IP协议族
+====
 
-工作了三年，发现最基础的http都不了解，只知道get和post请求。我相信和我一样情况的程序员绝不在少数，
+现实世界中的各行各业都有自己的行业规则，如果违反规则，会步履艰难，而如果尊重规则，便如鱼得水。
+网络世界也需要各色各式的规则，TCP/IP协议族就是这些规则的总称。而HTTP协议是其中的一种，负责传输
+超文本(HyperText)。
+
+TCP/IP协议族一共分为四层，包含不同的协议。应用层、传输层、网络层和链路层。
+
+上图，看看打开一个网站背后都发生了什么？
+
+![图片描述][4]
+
+1. 通过DNS协议，获得域名对应服务器的IP地址。
+2. 紧接着用到了HTTP协议，将生成的HTTP报文发送给服务器。这两个协议都属于应用层。
+3. 数据在网络中的传输是十分重要的，为了保证数据传输的稳定性和完整性，制定了TCP协议，它将数据分割成
+报文段，按序号传输。TCP协议属于传输层。
+4. 客户端发起的请求，怎么在众多机器中找到对应那一台，需要IP协议来寻找一条路径。IP协议属于网络层。
+5. 最后服务器收到了请求，把响应内容按照之前的步骤，返回给客户端。
 
 
-## TCP/IP协议簇
+HTTP协议概述
+====
+
+在学习HTTP协议时，就不要详细的分析一条请求在整个网络中都经历了哪些步骤。假设其他的都是通畅的，客户端发出请求报文，
+客户端收到请求，经过处理，把相应报文返回客户端，连接断开，一次请求结束。HTTP协议是无状态协议。
+
+在1990年W3C发布了第一个HTTP/0.9版本，这个版本只支持GET请求。
+1996年发布了HTTP/1.0版本，这是第一个广泛使用的版本，支持了多媒体类型和各种HTTP首部字段。
+但真正应用至今的是在1999年发布的HTTP/1.1版本，它修复了一些结构的缺陷，并引入了性能优化的措施。
+
+我们用chrome浏览器打开`http://www.w3c.org`这个网站。打开开发者工具的network项，看看第一个请求的详细信息。
+
+![图片描述][5]
+
+请求报文由请求地址、请求方法、协议版本、首部字段和内容实体。
+
+    GET /index.html HTTP/1.1
+    User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6)
+    Host: w3c.org
+
+相应报文由状态码及解释短语、协议版本、首部字段和响应实体。
+
+    HTTP/1.1 200 OK 
+    Content-Type: text/html
+    Content-Length: 137582
+    Server: Apache 0.84
+    
+    <html>
+      <body>Hello World</body>
+    </html>
 
 
-## http 结构剖析
+HTTP请求类型
+====
 
 
-## http请求类型
+HTTP头信息
+====
 
 
-## http头信息
+cookie
+====
 
 
-## HTTPS与HTTP2
+HTTPS与HTTP2
+====
 
-## web攻击
+常见web攻击
+====
+
+
 
 五、参考
 =====
@@ -50,3 +112,5 @@ HTTP，HTML，URI等一系列相关的万维网技术。
 [1]: https://zh.wikipedia.org/wiki/%E8%B6%85%E6%96%87%E6%9C%AC%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE
 [2]: https://zh.wikipedia.org/wiki/%E8%92%82%E5%A7%86%C2%B7%E4%BC%AF%E7%BA%B3%E6%96%AF-%E6%9D%8E
 [3]: http://baike.baidu.com/link?url=loLXfZfkha1NTPo0HdVb9OYJWF8EIut1VBooxm07fbj6xeW7v9rwSINwVT7sCwbA0T3rZwYkJDNlC6dQVi3TQsju-3BUnERVvTDPG8Qt0mH47F5V22CrAhh2MJi4Ifw-
+[4]: http://code.affecthing.com:4430/public/http-flow.jpg
+[5]: http://code.affecthing.com:4430/public/w3c-network-mini.jpg
