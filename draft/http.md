@@ -51,11 +51,13 @@ TCP/IP协议族一共分为四层，包含不同的协议。应用层、传输�
 HTTP协议概述
 ====
 
-在学习HTTP协议时，就不要详细的分析一条请求在整个网络中都经历了哪些步骤。假设其他的都是通畅的，客户端发出请求报文，
+在学习HTTP协议时，不用详细地分析一条请求在整个网络中都经历了哪些步骤。假设其他的都是通畅的，客户端发出请求报文，
 客户端收到请求，经过处理，把相应报文返回客户端，连接断开，一次请求结束。HTTP协议是无状态协议。
 
 在1990年W3C发布了第一个HTTP/0.9版本，这个版本只支持GET请求。
+
 1996年发布了HTTP/1.0版本，这是第一个广泛使用的版本，支持了多媒体类型和各种HTTP首部字段。
+
 但真正应用至今的是在1999年发布的HTTP/1.1版本，它修复了一些结构的缺陷，并引入了性能优化的措施。
 
 我们用chrome浏览器打开`http://www.w3c.org`这个网站。打开开发者工具的network项，看看第一个请求的详细信息。
@@ -80,12 +82,129 @@ HTTP协议概述
     </html>
 
 
-HTTP请求类型
+HTTP请求方法
 ====
+
+HTTP/1.1 支持多种请求方法，最常用的还是get和post方法。
+
+GET
+----
+
+gee方法是安全的请求方法，获取已经存在的资源或者是查询一些数据，通常会把请求参数拼接在url中。
+
+HEAD
+----
+
+head方法也是安全的，但它与get的不同在于，它不会返回相应实体内容，只返回相应首部。
+一般会用来确认请求url的有效性。
+
+POST
+----
+
+post方法会把请求内容放在请求实体中，而不是拼接在url中。
+所以一般查询信息用GET方法，提交表单数据使用post方法。
+
+OPTION
+-----
+
+查询指定url资源支持的请求方法，例如支持get和head。
+
+TRACE
+-----
+
+一般请求发出后，会经过多层代理服务器，这个方法就是用来确认请求发出后发生的一系列操作。
+但会引起跨站追踪攻击，一般不用。
+
+PUT与DELETE
+
+put是用来往服务器上传文件，而delete就是删除服务器上的文件。但是这两个方法没有验证机制，
+会产生不安全问题，一般服务器都不做支持。
+
+
+其实HTTP通信是建立在TCP连接的基础上，早期版本每次通信都需要重新连接、断开TCP。
+所以在HTTP/1.1下，实现了在一次TCP连接中进行多次HTTP通信的能力，大大提高了服务器的响应速度。
+同时也支持并行发送请求，一般浏览器是支持同时6个连接。
+
+
+状态码
+====
+
+状态码用来表示服务器返回的请求结果。由三位数字加解释短语组成，例如 200 ok。
+虽然状态码有很多，但是也可分门别类，并不需要掌握所有，也对返回的结果有个大致的了解。
+
+
+ 状态码 |          相应类别              |           原因短语    
+ ------|-------------------------------|-------------------------------
+ 1xx   | 信息性状态码（Informational）   | 服务器正在处理请求 
+ 2xx   | 成功状态码（Success）           | 请求已正常处理完毕
+ 3xx   | 重定向状态码（Redirection）     | 需要进行额外操作以完成请求
+ 4xx   | 客户端错误状态码（Client Error） | 客户端原因导致服务器无法处理请求
+ 5xx   | 服务器错误状态码（Server Error） | 服务器原因导致处理请求出错
+ 
+
+当我们知道了，首位数字是定义状态码的类型后，理解更多的状态码也就简单起来。
+下面，再详细介绍一些常见的状态码。
+
+
+200 OK
+----
+
+这个是最常见的，表示请求在服务器被正确处理了。
+
+
+204 No Content
+-----
+
+请求在服务器端被正确处理了，但是返回的相应报文中没有实体内容。
+一般用在只是客户端向服务器发送信息，而服务器不用向客户端返回什么信息的情况。
+
+
+301 Moved Permanently
+-----
+
+永久性重定向，代表资源的链接已经更换了url,在响应报文中会包含新的链接地址。
+
+
+304 Not Modified
+----
+
+当发出的请求中有附加条件(首部字段有if-*)时，服务器允许访问，但是不满足条件的情况。
+
+
+400 Bad Request
+----
+
+请求报文内容存在语法错误，服务器处理不了。
+
+
+401 Unauthorized
+----
+
+发送的请求中含有http认证信息，认证未通过。
+返回401的响应必须包含一个适用于被请求资源的WWW-Authenticate首部以质询用户信息
+
+
+403 Forbidden
+----
+
+请求的资源拒绝被访问，一般是无权限访问。
+
+
+404 Not Found
+----
+
+这个也很常见，请求的资源服务器找不到。
+
+
+500 Internal Server Error
+----
+
+服务器在处理请求时，出错了。一般是服务器发生了异常状况。
 
 
 HTTP头信息
 ====
+
 
 
 cookie
@@ -103,10 +222,14 @@ HTTPS与HTTP2
 五、参考
 =====
 
-1. [http超文本传输协议--维基百科][1]
+1. [http超文本传输协议——维基百科][1]
 2. [蒂姆·伯纳斯·李——万维网之父][2]
 3. [超文本——百度百科][3]
-
+4. [HTTP 协议入门——阮一峰][6]
+5. [99%的人理解错 HTTP 中 GET 与 POST 的区别][7]
+6. [一次完整的HTTP请求与响应涉及了哪些知识？][8]
+7. [《图解HTTP——上野宣》][9]
+8. [《HTTP权威指南》][10]
 
 
 [1]: https://zh.wikipedia.org/wiki/%E8%B6%85%E6%96%87%E6%9C%AC%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE
@@ -114,3 +237,9 @@ HTTPS与HTTP2
 [3]: http://baike.baidu.com/link?url=loLXfZfkha1NTPo0HdVb9OYJWF8EIut1VBooxm07fbj6xeW7v9rwSINwVT7sCwbA0T3rZwYkJDNlC6dQVi3TQsju-3BUnERVvTDPG8Qt0mH47F5V22CrAhh2MJi4Ifw-
 [4]: http://code.affecthing.com:443/public/http-flow.jpg
 [5]: http://code.affecthing.com:443/public/w3c-network-mini.jpg
+[6]: http://www.ruanyifeng.com/blog/2016/08/http.html
+[7]: https://www.oschina.net/news/77354/http-get-post-different
+[8]: https://mp.weixin.qq.com/s?__biz=MzI0NDYzMzg0OQ==&mid=2247484093&idx=1&sn=82d63ac497d0fb9f62cc7771cf884b16&chksm=e95b9b2bde2c123dd740a3c9fce614667cdbc0514601669478facbfa8a1f0881f5afe805b2e0&mpshare=1&scene=1&srcid=0502vPBmrkjC7tO0dnby8xMF#rd
+[9]: https://book.douban.com/subject/25863515/
+[10]: https://book.douban.com/subject/10746113/
+[11]: http://code.affecthing.com:443/public/status-code.jpg
