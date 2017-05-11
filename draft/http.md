@@ -325,20 +325,20 @@ cookie是网景公司的前雇员卢·蒙特利在1993年3月的发明的。cook
 和cookie相关的首部字段
 ----
 
-Expires: 是用来设置cookie的绝对过期时间，默认cookie的生存周期是跟随页面的，页面关闭即失效。
-Max-Age: 是用来设置cookie的相对过期时间，如果同时设置了Expires值，以Max-Age为准。
-path: 是用来指定与cookie绑定的网页地址，默认情况下，和该网页同一目录下的网页也能访问该cookie。
-domain: 指定与该cookie绑定的域名，该域名下的网页都可以访问该cookie。
-secure: 标明传输cookie值的方式。默认情况下，cookie是在不安全的http链接传输，如果设定了该值，
+* Expires:是用来设置cookie的绝对过期时间，默认cookie的生存周期是跟随页面的，页面关闭即失效。
+* Max-Age:是用来设置cookie的相对过期时间，如果同时设置了Expires值，以Max-Age为准。
+* path: 是用来指定与cookie绑定的网页地址，默认情况下，和该网页同一目录下的网页也能访问该cookie。
+* domain: 指定与该cookie绑定的域名，该域名下的网页都可以访问该cookie。
+* secure: 标明传输cookie值的方式。默认情况下，cookie是在不安全的http链接传输，如果设定了该值，
 cookie将必须处于更安全的方式下才可以传输，比如接下来介绍的https。
 
 
 cookie的缺陷
 ----
 
-1. cookie在每一次的http请求中都被附加发送，增加了传输流量。
-2. cookie是明文传输，有安全性问题，会被劫持和篡改。
-3. cookie有大小限制是4kb，更复杂的数据存储是无法满足的。
+1. 传输：cookie在每一次的http请求中都被附加发送，增加了传输流量。
+2. 安全：cookie是明文传输，有安全性问题，会被劫持和篡改。
+3. 大小：cookie有大小限制是4kb，更复杂的数据存储是无法满足的。
 
 
 HTTPS
@@ -347,6 +347,7 @@ HTTPS
 
 HTTP2
 ====
+
 
 常见web攻击
 ====
@@ -369,12 +370,12 @@ HTTP2
 [1]: https://zh.wikipedia.org/wiki/%E8%B6%85%E6%96%87%E6%9C%AC%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE
 [2]: https://zh.wikipedia.org/wiki/%E8%92%82%E5%A7%86%C2%B7%E4%BC%AF%E7%BA%B3%E6%96%AF-%E6%9D%8E
 [3]: http://baike.baidu.com/link?url=loLXfZfkha1NTPo0HdVb9OYJWF8EIut1VBooxm07fbj6xeW7v9rwSINwVT7sCwbA0T3rZwYkJDNlC6dQVi3TQsju-3BUnERVvTDPG8Qt0mH47F5V22CrAhh2MJi4Ifw-
-[4]: http://code.affecthing.com:443/public/http-flow.jpg
-[5]: http://code.affecthing.com:443/public/w3c-network-mini.jpg
+[4]: https://sfault-image.b0.upaiyun.com/423/310/4233103890-59143062b9536_articlex
+[5]: https://sfault-image.b0.upaiyun.com/248/688/248688547-591430a01f133_articlex
 [6]: http://www.ruanyifeng.com/blog/2016/08/http.html
 [7]: https://www.oschina.net/news/77354/http-get-post-different
 [8]: https://mp.weixin.qq.com/s?__biz=MzI0NDYzMzg0OQ==&mid=2247484093&idx=1&sn=82d63ac497d0fb9f62cc7771cf884b16&chksm=e95b9b2bde2c123dd740a3c9fce614667cdbc0514601669478facbfa8a1f0881f5afe805b2e0&mpshare=1&scene=1&srcid=0502vPBmrkjC7tO0dnby8xMF#rd
 [9]: https://book.douban.com/subject/25863515/
 [10]: https://book.douban.com/subject/10746113/
-[11]: http://code.affecthing.com:443/public/status-code.jpg
-[11]: http://code.affecthing.com:443/public/cookie.jpg
+[11]: https://sfault-image.b0.upaiyun.com/369/578/3695785564-591430ce6e624_articlex
+[12]: https://sfault-image.b0.upaiyun.com/401/373/401373036-591430ffed19c_articlex
