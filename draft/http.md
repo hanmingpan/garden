@@ -230,9 +230,9 @@ HTTP首部
  请求首部 | 是客户端向服务器发送请求时，报文中包含的首部字段
  响应首部 | 是服务器向浏览器返回相应报文时，包含的首部字段
  实体首部 | 是请求报文和响应报文中针对实体内容的首部字段
- 拓展字段 | 是非标准首部字段，由开发者根据自身需求自由定义和实现
+ 拓展首部 | 是非标准首部字段，由开发者根据自身需求自由定义和实现
 
-以下列表，提供一些常用首部的简单说明，每个字段的具体使用都不一样，需要的话还是查看详细介绍。
+以下列表，提供一些首部的简单说明，每个字段的具体使用都不一样，实际应用还是查看详细介绍。
 
 通用首部
 ----
@@ -240,8 +240,11 @@ HTTP首部
  字段名             |                 说明
 -------------------|--------------------------------------------------
  Cache-Control     | 控制缓存行为
- Transfer-Encoding | 指定报文主体的编码方式
- Connection        | 逐跳首部、连接的管理
+ Pragma            | HTTP/1.0遗留字段，也是用于控制缓存机制
+ Transfer-Encoding | 传输报文主体的编码方式
+ Trailer           | 报文主体之后的首部字段，用于分块传输
+ Upgrade           | 检测HTTP协议是否可用更高版本
+ Connection        | 控制不再转发给代理的字段、连接的管理
  Date              | 创建报文的日期
  Via               | 追踪客户端与服务器之间报文的传输路径，通常指代理服务器
  Warning           | 缓存相关警告
@@ -252,10 +255,10 @@ HTTP首部
 
 字段名                |                 说明
 ---------------------|------------------------------------------------
- Accept              | 客户端可接受的媒体类型及相关优先级
- Accept-Charset      | 可接受的字符集及优先顺序
- Accept-Encoding     | 支持的内容编码及优先顺序
- Accept-Language     | 可处理的自然语言集，以及优先级
+ Accept              | 客户端可接受的媒体类型及相关优先级，q值表示权重
+ Accept-Charset      | 客户端可接受的字符集及优先顺序
+ Accept-Encoding     | 客户端支持的内容编码及优先顺序
+ Accept-Language     | 客户端可处理的自然语言集，以及优先级
  Authorization       | 客户端的认证信息，一般是证书信息
  Host                | 请求资源所在服务器的主机名和端口号
  If-Match            | 比较实体标记
@@ -278,9 +281,9 @@ HTTP首部
  Accept-Ranges       | 服务器是否接受字节范围请求
  Age                 | 服务器响应创建经过的时间
  ETag                | 资源配置信息
- Location            | 客户端重定向url
+ Location            | 服务器告知客户端重定向url
  Proxy-Authorization | 代理服务器向客户端发起的认证信息
- Retry-After         | 告知客户端再次请求的时间
+ Retry-After         | 服务器告知客户端再次请求的时间
  Server              | 服务器应用名、版本号等相关信息
  Vary                | 代理服务器的缓存管理信息
  WWW-Authorization   | 服务器对客户端的认证信息
@@ -303,8 +306,39 @@ HTTP首部
  Last-Modified       | 实体内容最后修改日期
 
 
-cookie
+Cookie
 ====
+
+http协议是无状态的，如果我们今天登录了一个网站，明天重新打开网站时，能自动登录，怎么办？
+那就得靠cookie来解决了。它能在客户端保存用户的基本信息，当我们下次访问该网站，浏览器会把cookie
+一起发送给服务器，服务器就会根据这些信息来判断你是否登陆过。
+
+cookie是网景公司的前雇员卢·蒙特利在1993年3月的发明的。cookie数据也是键值对的形式，
+它和网站以及网页是关联在一起的。如果保存cookie值指定了网站地址，访问其他网站时并不会发送这些cookie值。
+
+访问一个网站，打开chrome的开发者工具，application中可以看见cookie的信息。
+
+![图片描述][12]
+
+
+
+和cookie相关的首部字段
+----
+
+Expires: 是用来设置cookie的绝对过期时间，默认cookie的生存周期是跟随页面的，页面关闭即失效。
+Max-Age: 是用来设置cookie的相对过期时间，如果同时设置了Expires值，以Max-Age为准。
+path: 是用来指定与cookie绑定的网页地址，默认情况下，和该网页同一目录下的网页也能访问该cookie。
+domain: 指定与该cookie绑定的域名，该域名下的网页都可以访问该cookie。
+secure: 标明传输cookie值的方式。默认情况下，cookie是在不安全的http链接传输，如果设定了该值，
+cookie将必须处于更安全的方式下才可以传输，比如接下来介绍的https。
+
+
+cookie的缺陷
+----
+
+1. cookie在每一次的http请求中都被附加发送，增加了传输流量。
+2. cookie是明文传输，有安全性问题，会被劫持和篡改。
+3. cookie有大小限制是4kb，更复杂的数据存储是无法满足的。
 
 
 HTTPS
@@ -343,3 +377,4 @@ HTTP2
 [9]: https://book.douban.com/subject/25863515/
 [10]: https://book.douban.com/subject/10746113/
 [11]: http://code.affecthing.com:443/public/status-code.jpg
+[11]: http://code.affecthing.com:443/public/cookie.jpg
